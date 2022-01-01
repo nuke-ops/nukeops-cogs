@@ -1,0 +1,8 @@
+{
+    "author" : ["Maksxpl (Maksxpl#8503)"],
+    "install_msg" : "Cogs by NukeOps",
+    "name" : "NukeOpsCogs",
+    "short" : "NukeOpsCogs",
+    "description" : "Some random stuff made for fun",
+    "tags" : ["Fun", "Utility", "Administration"]
+}

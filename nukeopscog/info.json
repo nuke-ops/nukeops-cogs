@@ -1,0 +1,8 @@
+{
+    "author" : ["Maksxpl (Maksxpl#8503)"],
+    "install_msg" : "owo",
+    "name" : "NukeOpsCogs",
+    "short" : "NukeOpsCogs",
+    "description" : "Roll a dice, lookup nicknames from local database",
+    "tags" : ["Fun", "Utility", "Administration"]
+}
