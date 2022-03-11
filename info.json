@@ -3,6 +3,7 @@
     "install_msg" : "Cogs by NukeOps",
     "name" : "NukeOpsCogs",
     "short" : "NukeOpsCogs",
+    "requirements" : ["mysql"],
     "description" : "Some random stuff made for fun",
     "tags" : ["Fun", "Utility", "Administration"]
 }
