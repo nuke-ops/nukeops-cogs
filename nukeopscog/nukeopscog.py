@@ -5,6 +5,9 @@ import discord
 from discord.utils import get
 from discord.ext.commands import Bot
 
+"""
+Reminder: Add JSON support instead of using sql
+"""
 from .conf import credentials
 mydb = credentials()
 cursor = mydb.cursor()
