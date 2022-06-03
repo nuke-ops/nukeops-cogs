@@ -10,4 +10,4 @@ How to install
 | Command | Description |
 | --- | --- |
 | dice | Rolls dice |
-| warframe | Checks discord and warframe nicknames |
+| warframe | Checks discord and warframe nicknames, also assigns discord wf ranks |
