@@ -1,13 +1,14 @@
 from redbot.core import commands, checks, Config, data_manager
 import random
 import sqlite3
+import os
 
 from discord import Embed
 from discord.utils import get
 from discord.ext.commands import Bot
 
 from .nukeops import check
-
+database_exist = os.path.exists
 
 class NukeOpsCog(commands.Cog):
     """
@@ -18,6 +19,7 @@ class NukeOpsCog(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.data_path = str(data_manager.cog_data_path(self))
 
 
     @commands.command()
@@ -73,11 +75,18 @@ class NukeOpsCog(commands.Cog):
           ``|   Assigns warframe ranks              |``
           ``|   Affiliations: None, Clan, Alliance  |``
         """
-        if check.database_exist(str(data_manager.cog_data_path(self))+"/warframe.db"):
-            pass
-        else:
+        warframe_db = self.data_path+"/warframe.db"
+        if not database_exist(warframe_db):
             await ctx.send("Database doesn't exist")
-            return
+            await ctx.send("Creating database...")
+            try:
+                check.create_db(warframe_db)
+            except Exception as Error:
+                await ctx.send("Creating database failed")
+                print(Error)
+                return
+            else:
+                return await ctx.send("Databased succsessfully installed")
 
         discord_username = ctx.author
 
@@ -92,18 +101,19 @@ class NukeOpsCog(commands.Cog):
             return
 
         # save user data in db
+        await ctx.send("Creating user...")
         try:
-            with sqlite3.connect("warframe.db") as conn:
-                conn.executescript(f"""
+            with sqlite3.connect(warframe_db) as conn:
+                cursor = conn.cursor()
+                cursor.executescript(f"""
                                insert into nicknames (discord_name, warframe_name, affiliation)
                                values('{discord_username}', '{ingame_username}', '{affiliation}');
                                """)
-                await ctx.send("Registration complete\n\
-                               ```Discord: {DiscordUsername}\nWarframe: {In_Game_Name}\nAffiliation: {Affiliation}```")
-
+                await ctx.send(f"User added succsessfully\n\
+                               ```Discord: {discord_username}\nWarframe: {ingame_username}\nAffiliation: {affiliation}```")
         # Assign ranks based on affiliation
         except Exception as Error:
-            await ctx.send("Error 1")
+            await ctx.send("Adding user failed")
             print(Error)
         try:
             if affiliation == "Clan":
@@ -120,3 +130,4 @@ class NukeOpsCog(commands.Cog):
         except Exception as Error:
             await ctx.send("Error 2")
             print(Error)
+

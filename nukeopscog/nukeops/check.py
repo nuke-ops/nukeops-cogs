@@ -1,24 +1,15 @@
 import sqlite3
 import os
 
-
-def database_exist(database_file):
-    # Check if database exist,
-    # if it's not, make one
-    if os.path.exists(database_file):
-        return True
-    try:
-        with sqlite3.connect(database_file) as conn:
-            conn.execute("""
+def create_db(database_file):
+    with sqlite3.connect(database_file) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
 CREATE TABLE IF NOT EXISTS nicknames(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     discord_name text NOT NULL,
     warframe_name text NOT NULL,
     affiliation text NOT NULL);""")
-        return False
-    except Exception as Error:
-        print(Error)
-
 
 def user_exist(name):
     # ctx.author
