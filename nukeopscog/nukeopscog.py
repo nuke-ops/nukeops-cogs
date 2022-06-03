@@ -10,9 +10,11 @@ from .nukeops import check
 
 
 class NukeOpsCog(commands.Cog):
-    """My custom cog
+    """
+    Cog made for NukeOps clan
     Feel free to ping/pm me(maksxpl#8503) if you found a bug
-    or if you got an idea for a new feature."""
+    or if you got an idea for a new feature.
+    """
 
     def __init__(self, bot):
         self.bot = bot
@@ -46,15 +48,19 @@ class NukeOpsCog(commands.Cog):
 
     @commands.group()
     async def warframe(self, ctx):
+        """
+          Cog made for NukeOps clan
+          Feel free to ping/pm me(maksxpl#8503) if you found a bug
+          or if you got an idea for a new feature.
+        """
         pass
 
-    @warframe.group()
-    async def check(self, ctx):
-        pass
-
-    @check.command()
-    async def user(self, ctx, username: str):
-        """ |``!red warframe user [username]``|"""
+    @warframe.command()
+    async def check(self, ctx, username: str):
+        """
+          |``       Checks info about user            ``|
+          |``    !red warframe user <username>        ``|
+        """
         results = check.user(username)
         if results:
             for x in results:
@@ -63,6 +69,10 @@ class NukeOpsCog(commands.Cog):
 
     @warframe.command()
     async def register(self, ctx, ingame_username: str, affiliation: str):
+        """
+          ``|   Assigns warframe ranks              |``
+          ``|   Affiliations: None, Clan, Alliance  |``
+        """
         if check.database_exist(str(data_manager.cog_data_path(self))+"/warframe.db"):
             pass
         else:
@@ -110,33 +120,3 @@ class NukeOpsCog(commands.Cog):
         except Exception as Error:
             await ctx.send("Error 2")
             print(Error)
-
-    @warframe.group()
-    async def wfhelp(self, ctx):
-        pass
-
-    @wfhelp.command(name="register")
-    async def hregister(self, ctx):
-        embed = Embed(color=0xff0000)
-        embed.add_field(name="Syntax", value="``| !red warframe register [Your in-game name] [Affiliation]   |``",
-                        inline=False)
-        embed.add_field(name="Example", value="``| 0 = None | 1 = Clan | 2 = Alliance |``", inline=False)
-        embed.add_field(name="^", value="|By Clan I mean our clan named Nuke Ops.                         |",
-                        inline=False)
-        embed.add_field(name="^", value="|By joining the clan, you're automatically a member of alliance. |",
-                        inline=False)
-        embed.add_field(name="^", value="|By Alliance I mean our Alliance named S.E.L.F.                  |",
-                        inline=False)
-        embed.add_field(name="Example",
-                        value="``!red warframe register test 1``\
-                        Will register user with the name 'test' as a member of our clan.",
-                        inline=False)
-        await ctx.send(embed=embed)
-
-    @wfhelp.command(name="check")
-    async def check_help(self, ctx):
-        embed = Embed(color=0xff0000)
-        embed.add_field(name="Syntax", value="``!red warframe check [Discord/in-game username]``", inline=False)
-        embed.add_field(name="Example", value="``!red warframe check dn maksxpl#8503``", inline=False)
-        embed.add_field(name="Example", value="``!red warframe check ign Maksxpl``", inline=False)
-        await ctx.send(embed=embed)

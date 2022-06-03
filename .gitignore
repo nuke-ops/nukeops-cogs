@@ -1,11 +1,6 @@
-# IntelliJ
-/shelf/
-/workspace.xml
-/idea/
-
-
 # Ignore folders
 __pycache__/
+.idea/
 
 # Ignore extensions
 
