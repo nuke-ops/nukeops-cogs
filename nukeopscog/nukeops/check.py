@@ -11,18 +11,17 @@ CREATE TABLE IF NOT EXISTS nicknames(
     warframe_name text NOT NULL,
     affiliation text NOT NULL);""")
 
-def user_exist(name):
+def user_exist(database_file, name):
     # ctx.author
-    db_file = 'warframe.db'
     try:
-        with sqlite3.connect(db_file) as conn:
+        with sqlite3.connect(database_file) as conn:
             cursor = conn.cursor()
             cursor.execute(f"""
                             SELECT * FROM nicknames
                             WHERE discord_name = '{name}' OR
                                  warframe_name = '{name}'
                             """)
-            user = cursor.fetchall()
+            user = cursor.fetchall() 
         if user:
             return True
         else: return False
@@ -31,10 +30,9 @@ def user_exist(name):
         return False
 
 
-def user(name):
-    db_file = 'warframe.db'
+def user(database_file, name):
     # output = list()
-    with sqlite3.connect(db_file) as conn:
+    with sqlite3.connect(database_file) as conn:
         cursor = conn.cursor()
         cursor.execute(f"""
                         SELECT * FROM nicknames

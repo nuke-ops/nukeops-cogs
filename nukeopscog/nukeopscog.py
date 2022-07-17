@@ -20,6 +20,7 @@ class NukeOpsCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.data_path = str(data_manager.cog_data_path(self))
+        self.warframe_db = self.data_path+"/warframe.db"
 
 
     @commands.command()
@@ -61,9 +62,9 @@ class NukeOpsCog(commands.Cog):
     async def check(self, ctx, username: str):
         """
           |``       Checks info about user            ``|
-          |``    !red warframe user <username>        ``|
+          |``    !red warframe check <username>        ``|
         """
-        results = check.user(username)
+        results = check.user(self.warframe_db, username)
         if results:
             for x in results:
                 await ctx.send(x)
@@ -75,12 +76,11 @@ class NukeOpsCog(commands.Cog):
           ``|   Assigns warframe ranks              |``
           ``|   Affiliations: None, Clan, Alliance  |``
         """
-        warframe_db = self.data_path+"/warframe.db"
-        if not database_exist(warframe_db):
+        if not database_exist(self.warframe_db):
             await ctx.send("Database doesn't exist")
             await ctx.send("Creating database...")
             try:
-                check.create_db(warframe_db)
+                check.create_db(self.warframe_db)
             except Exception as Error:
                 await ctx.send("Creating database failed")
                 print(Error)
@@ -91,7 +91,7 @@ class NukeOpsCog(commands.Cog):
         discord_username = ctx.author
 
         # check if user already exist in db
-        if check.user_exist(discord_username):
+        if check.user_exist(self.warframe_db, discord_username):
             await ctx.send("You're already registered.")
             return
         # Check if user used correct 'affiliation'
